@@ -27,4 +27,25 @@ public class Payload {
 				+ "},\r\n" + "\r\n" + "{\r\n" + "\r\n" + "\"title\": \"RPA\",\r\n" + "\r\n" + "\"price\": 45,\r\n"
 				+ "\r\n" + "\"copies\": 10\r\n" + "\r\n" + "}\r\n" + "\r\n" + "]\r\n" + "\r\n" + "}";
 	}
+
+	public static String addBookPayload(String isbn,String aisle) {
+
+		String payLoad = "{\r\n" + "\"name\":\"Learn selenium Automation with Java\",\r\n" + "\"isbn\":\""+isbn+"\",\r\n"
+				+ "\"aisle\":\""+aisle+"\",\r\n" + "\"author\":\"Jason Huggins\"\r\n" + "}";
+
+		return payLoad;
+	}
+	
+	
+	
+	public static String deleteBookPayload(String isbn,String aisle) {
+		return "{\r\n"
+				+ " \r\n"
+				+ "\"ID\" : \""+isbn+aisle+"\"\r\n"
+				+ " \r\n"
+				+ "} \r\n"
+				+ "";
+		
+		
+	}
 }
