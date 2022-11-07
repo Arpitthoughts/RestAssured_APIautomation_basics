@@ -2,13 +2,14 @@ package OAuth2;
 
 import static io.restassured.RestAssured.given;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
+import java.util.List;
 
-import io.restassured.RestAssured;
 import io.restassured.parsing.Parser;
 import io.restassured.path.json.JsonPath;
+import pojo.Api;
+import pojo.Courses;
+import pojo.GetCourse;
+import pojo.WebAutomation;
 
 public class OAuth_demo {
 
@@ -25,7 +26,7 @@ public class OAuth_demo {
 
 		// RestAssured.baseURI = "";
 
-		String url = "https://rahulshettyacademy.com/getCourse.php?code=4%2F0ARtbsJqL6k7T0ac13KYepDiRg91de-nKAe07NFcK-k5PEYge1chm2i3YyOrjfLxvVVBRfg&scope=email+openid+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email&authuser=0&prompt=none";
+		String url = "https://rahulshettyacademy.com/getCourse.php?code=4%2F0ARtbsJrOd-mi67YyBQbCF2QPsrYZBRZMAHcTKx2Avmb9ygSa0yYSMC6Dep17CEg4y0-Nww&scope=email+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email+openid&authuser=0&prompt=none";
 		String code = url.split("code=")[1].split("&scope")[0];
 		System.out.println(code);
 
@@ -48,10 +49,42 @@ public class OAuth_demo {
 		System.out.println(accessToken);
 
 		//Hitting the API with access token to get available books
-		String Response = given().contentType("application/json").queryParam("access_token", accessToken)
+		/*String Response = given().contentType("application/json").queryParam("access_token", accessToken)
 				.expect().defaultParser(Parser.JSON).when()
 				.get("https://rahulshettyacademy.com/getCourse.php").asString();
-		System.out.println(Response);
+		
+		System.out.println(Response);*/
+		
+		//Parsing the response into POJO
+		GetCourse gc = given().contentType("application/json").queryParam("access_token", accessToken)
+				.expect().defaultParser(Parser.JSON).
+				when().get("https://rahulshettyacademy.com/getCourse.php").as(GetCourse.class);
+		
+		//Deserialization getting response from java object
+		
+		System.out.println(gc.getLinkedIn());
+		System.out.println(gc.getInstructor());
+	System.out.println(gc.getCourses().getWebAutomation().get(0).getCourseTitle());	
+	
+	//finding price of api SoapUI Webservices testing course 
+	List<Api> apielements=gc.getCourses().getApi();
+	for(int i=0;i<apielements.size();i++) {
+		 
+		if(apielements.get(i).getCourseTitle().equalsIgnoreCase("SoapUI Webservices testing")) {
+			System.out.println(apielements.get(i).getPrice());
+		}
+		
+	}
+	
+//Finding course title all web automation courses
+	List<WebAutomation> webcourse=gc.getCourses().getWebAutomation();
+	
+	for(int j=0;j<webcourse.size();j++) {
+
+	System.out.println(webcourse.get(j).getCourseTitle());
+	
+		
 	}
 
+}
 }

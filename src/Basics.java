@@ -18,9 +18,9 @@ public class Basics {
 		// when - submit API response with resource and http method
 		// then - validate the response
 
-		RestAssured.baseURI = "https://rahulshettyacademy.com";
+		//RestAssured.baseURI = "https://rahulshettyacademy.com";
 		String Response = given().log().all().queryParam("key", "qaclick123").header("Content-Type", "application/json")
-				.body(Payload.addPlaceBody()).when().post("/maps/api/place/add/json").then().assertThat()
+				.body(Payload.addPlaceBody()).when().post("https://rahulshettyacademy.com/maps/api/place/add/json").then().assertThat()
 				.statusCode(200).body("scope", equalTo("APP")).header("Server", equalTo("Apache/2.4.41 (Ubuntu)")).extract()
 				.response().asString();
 
@@ -35,7 +35,7 @@ public class Basics {
 		given().log().all().queryParam("key", "qaclick123").header("Content-Type", "application/json")
 				.body("{\r\n" + "\"place_id\":\"" + placeId + "\",\r\n" + "\"address\":\"" + newAddress + "\",\r\n"
 						+ "\"key\":\"qaclick123\"\r\n" + "}\r\n" + " \r\n" + "")
-				.when().put("maps/api/place/update/json").then().log().all().assertThat().statusCode(200)
+				.when().put("https://rahulshettyacademy.com/maps/api/place/update/json").then().log().all().assertThat().statusCode(200)
 				.body("msg", equalTo("Address successfully updated"));
 
 		// now automation get place API
@@ -46,7 +46,7 @@ public class Basics {
 
 				.when()
 
-				.get("maps/api/place/get/json")
+				.get("https://rahulshettyacademy.com/maps/api/place/get/json")
 
 				.then()
 

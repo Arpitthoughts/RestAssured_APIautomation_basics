@@ -6,12 +6,15 @@ import files.Payload;
 import files.ReusableMethods;
 import io.restassured.RestAssured;
 import io.restassured.path.json.JsonPath;
+import utilities.createBookData;
 
 import static io.restassured.RestAssured.*;
 
+import java.io.IOException;
+
 public class DynamicJson {
 	
-	@Test(dataProvider="getData",enabled=false)
+	@Test(dataProvider="getExcelData",enabled=true)
 	public void addBook(String isbn,String aisle ) {
 		
 		
@@ -26,7 +29,7 @@ public class DynamicJson {
 	}
 	
 	
-	@Test(dataProvider="getData")
+	//@Test(dataProvider="getData")
 	public void deleteBook(String isbn,String aisle ) {
 		
 		
@@ -52,8 +55,14 @@ public class DynamicJson {
 	}
 	
 	
+	@DataProvider(name="getExcelData")
+	public Object[][] getExcelData() throws IOException {
+		
+		Object[][] data= createBookData.BookData();
+		return data;
+		
+	}
 	
 	
 	
-
 }
