@@ -45,7 +45,7 @@ public class SerializeSpecBuilder {
 		ResponseSpecification res = new ResponseSpecBuilder().expectStatusCode(200).expectContentType(ContentType.JSON)
 				.build();
 
-		RequestSpecification request = given().spec(req).body(p);
+		RequestSpecification request = given().log().all().spec(req).body(p);
 		String response = request.when().post("/maps/api/place/add/json").then().spec(res).extract().response()
 				.asString();
 
